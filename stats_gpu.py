@@ -1,59 +1,61 @@
 import os
+import json
 import pandas as pd
 import datetime
 
-benchmark_file = r"C:\Program Files (x86)\MSI Afterburner\Benchmark.txt"
+# Directory containing the JSON files
+json_directory = r'C:\Users\Christoph\Documents\CapFrameX\Captures'
 
-def read_file_and_create_dataframe(file_path):
-    benchmark_data = []
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-        i = 0
-        while i < len(lines):
-            if "benchmark completed" in lines[i]:
-                benchmark_data.append(extract_benchmark_info(lines[i:i+7]))
-            i += 1
+# List all JSON files in the directory
+json_files = [file for file in os.listdir(json_directory) if file.endswith('.json')]
 
-    df = pd.DataFrame(benchmark_data)
-    return df
+# Display the list of available JSON files
+print("Available JSON files:")
+for i, file in enumerate(json_files):
+    print(f"{i + 1}: {file}")
 
+# Prompt so that I can select the file I want to analyze
+while True:
+    try:
+        selected_index = int(input("Enter the index of the JSON file to analyze: ")) - 1
+        if 0 <= selected_index < len(json_files):
+            selected_file = json_files[selected_index]
+            break
+        else:
+            print("Invalid index. Please enter a valid index.")
+    except ValueError:
+        print("Invalid input. Please enter a valid index.")
 
-def extract_benchmark_info(file_lines):
-    game_name_line = file_lines[0]
-    game_name_parts = game_name_line.split(',')[1].split("benchmark completed")[0].strip().split()
-    game_name = game_name_parts[-1].split('.')[0]  # Take the last part and remove the extension if present
-    if game_name == "cod":
-        game_name = "Modern Warfare" # Change "cod" to "Modern Warfare"
-    print(game_name)
-    date = game_name_line.split(',')[0].split("benchmark completed")[0].strip()
-    time = game_name_line.split(',')[1].split("benchmark completed")[0].strip().split()[0]
-    average_frame_rate = float(file_lines[2].split(":")[1].strip().split()[0])
-    low_1_percent = float(file_lines[4].split(":")[1].strip().split()[0])
-    low_0_1_percent = float(file_lines[5].split(":")[1].strip().split()[0])
+# Construct the full file path for the selected JSON file
+json_file_path = os.path.join(json_directory, selected_file)
 
-    return {
-        "Game Name": game_name,
-        "Date": date,
-        "Time": time,
-        "Average FPS": average_frame_rate,
-        "1% low": low_1_percent,
-        "0.1% low": low_0_1_percent
-    }
+# Extract the game name from the selected JSON file's name and remove ".exe"
+game_name = selected_file.split('-')[1].replace('.exe', '')  # Assumes a consistent naming format
 
-df = read_file_and_create_dataframe(benchmark_file)
+# Open and read the selected JSON file
+with open(json_file_path, 'r') as json_file:
+    data = json.load(json_file)
+    print(data.keys())
+    x = data["Runs"][0]
+    y = x["CaptureData"]
+    frame_times = y["MsBetweenPresents"]
+    print(frame_times)
+
+df = pd.DataFrame(frame_times)
+df = df.rename(columns={0: "FrameTime"})
+print(df)
 
 now = datetime.datetime.now()
 timestamp = now.strftime("%m_%d_%H_%M")  # Example: "10_30_11_44"
 
-# Define the target directory and file name
-output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Benchmark"
-output_file_name = f"benchmark_{timestamp}.xlsx"
+# Define the target directory and include the game name in the output_file_name
+output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Frametimes"
+output_file_name = f"benchmark_{game_name}_{timestamp}.xlsx"
 
-# Full file path
+# Full file path for the output
 output_file_path = os.path.join(output_directory, output_file_name)
 
 # Save the DataFrame to Excel
-df.to_excel(output_file_path, index=False)
+df.to_excel(output_file_path, index=True)
 
-#print(f"DataFrame saved to {output_file_path}")
-print(df)
+print(f"DataFrame saved to {output_file_path}")
