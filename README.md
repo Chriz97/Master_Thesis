@@ -1,4 +1,4 @@
-# Analysis of Nvidia DLSS, Intel XeSS and AMD FSR: Evaluating Performance and Gaming Scenario Adaptability in Modern Video Gaming
+# Evaluating State of the Art Upscaling Technologies: Performance, Image Quality and Gaming Scenario Suitability
 
 ## Introduction
 
