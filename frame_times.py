@@ -47,9 +47,28 @@ df = df.rename(columns={0: "FrameTime"})
 now = datetime.datetime.now()
 timestamp = now.strftime("%m_%d_%H_%M")  # Example: "10_30_11_44"
 
+technologies = ["DLSS", "XeSS", "FSR"]
+upscaling_setting = ["Performance", "Balanced", "Quality"]
+graphics_settings = ["Low", "Medium", "High"]
+resolution = ["1080p", "1440p"]
+
+# Prompt user to select options by index
+tech_index = int(input(f"Select the technology ({', '.join([f'{i}: {tech}' for i, tech in enumerate(technologies)])}): "))
+upscaling_index = int(input(f"Select the upscaling setting ({', '.join([f'{i}: {setting}' for i, setting in enumerate(upscaling_setting)])}): "))
+graphics_index = int(input(f"Select the graphics setting ({', '.join([f'{i}: {setting}' for i, setting in enumerate(graphics_settings)])}): "))
+resolution_index = int(input(f"Select the resolution ({', '.join([f'{i}: {res}' for i, res in enumerate(resolution)])}): "))
+
+# Validate selections
+if tech_index not in range(len(technologies)) or \
+   upscaling_index not in range(len(upscaling_setting)) or \
+   graphics_index not in range(len(graphics_settings)) or \
+   resolution_index not in range(len(resolution)):
+    print("One or more invalid selections. Please restart and enter valid index numbers.")
+
+
 # Define the target directory and include the game name in the output_file_name
 output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Frametimes"
-output_file_name = f"benchmark_{game_name}_{timestamp}.xlsx"
+output_file_name = f"benchmark_{game_name}_{technologies[tech_index]}_{upscaling_setting[upscaling_index]}_{graphics_settings[graphics_index]}_{resolution[resolution_index]}_{timestamp}.xlsx"
 
 # Full file path for the output
 output_file_path = os.path.join(output_directory, output_file_name)
