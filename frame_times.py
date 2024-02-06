@@ -47,8 +47,8 @@ df = df.rename(columns={0: "FrameTime"})
 now = datetime.datetime.now()
 timestamp = now.strftime("%m_%d_%H_%M")  # Example: "10_30_11_44"
 
-technologies = ["DLSS", "XeSS", "FSR"]
-upscaling_setting = ["Performance", "Balanced", "Quality"]
+technologies = ["Native", "DLSS", "XeSS", "FSR"]
+upscaling_setting = ["None", "Performance", "Balanced", "Quality"]
 graphics_settings = ["Low", "Medium", "High"]
 resolution = ["1080p", "1440p"]
 
@@ -68,7 +68,7 @@ if tech_index not in range(len(technologies)) or \
 
 # Define the target directory and include the game name in the output_file_name
 output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Frametimes"
-output_file_name = f"benchmark_{game_name}_{technologies[tech_index]}_{upscaling_setting[upscaling_index]}_{graphics_settings[graphics_index]}_{resolution[resolution_index]}_{timestamp}.xlsx"
+output_file_name = f"benchmark_{game_name}_{timestamp}_{technologies[tech_index]}_{upscaling_setting[upscaling_index]}_{graphics_settings[graphics_index]}_{resolution[resolution_index]}.xlsx"
 
 # Full file path for the output
 output_file_path = os.path.join(output_directory, output_file_name)
