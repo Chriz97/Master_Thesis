@@ -57,7 +57,7 @@ timestamp = now.strftime("%m_%d_%H_%M")  # Example: "10_30_11_44"
 
 def check_benchmark():
     games = ["Call of Duty MW III", "Cyberpunk 2077", "AC Mirage", "Diablo IV", "The Witcher 3"]
-    technologies = ["DLSS", "XeSS", "FSR"]
+    technologies = ["Native", "DLSS", "XeSS", "FSR"]
     upscaling_setting = ["Performance", "Balanced", "Quality"]
     graphics_settings = ["Low", "Medium", "High"]
     resolution = ["1080p", "1440p"]
