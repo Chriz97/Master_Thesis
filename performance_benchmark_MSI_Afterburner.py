@@ -61,6 +61,7 @@ def check_benchmark():
     upscaling_setting = ["None", "Performance", "Balanced", "Quality"]
     graphics_settings = ["Low", "Medium", "High"]
     resolution = ["1080p", "1440p"]
+    graphics_card = ["3060", "4060"]
     tech_index = int(input(f"Select the technology ({', '.join([f'{i}: {tech}' for i, tech
                                                                 in enumerate(technologies)])}): "))
     upscaling_index = int(input(f"Select the upscaling setting ({', '.join([f'{i}: {setting}' for i, setting
@@ -69,20 +70,23 @@ def check_benchmark():
                                                                           in enumerate(graphics_settings)])}): "))
     resolution_index = int(input(f"Select the resolution ({', '.join([f'{i}: {res}' for i, res
                                                                       in enumerate(resolution)])}): "))
+    graphics_card_index = int(input(f"Select the graphics card ({', '.join([f'{i}: {gpu}' for i, gpu
+                                                                      in enumerate(graphics_card)])}): "))
     technology_name = technologies[tech_index]
     upscaling_name = upscaling_setting[upscaling_index]
     graphis_name = graphics_settings[graphics_index]
     resolution_name = resolution[resolution_index]
-    return technology_name, upscaling_name, graphis_name, resolution_name
+    graphis_card_name = graphics_card[graphics_card_index]
+    return technology_name, upscaling_name, graphis_name, resolution_name,graphis_card_name
 
 
-technology_name, upscaling_name, graphis_name, resolution_name = check_benchmark()
+technology_name, upscaling_name, graphis_name, resolution_name, graphis_card_name = check_benchmark()
 
 # Define the target directory and file name
 output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Benchmark"
 
 # Now include game_name in your output file name
-output_file_name = f"benchmark_{game_names}_{timestamp}_{technology_name}_{upscaling_name}_{graphis_name}_{resolution_name}.xlsx"
+output_file_name = f"benchmark_{game_names}_{timestamp}_{technology_name}_{upscaling_name}_{graphis_name}_{resolution_name}_{graphis_card_name}.xlsx"
 
 # Full file path
 output_file_path = os.path.join(output_directory, output_file_name)
