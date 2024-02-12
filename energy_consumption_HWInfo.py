@@ -52,15 +52,16 @@ df['GPU Core Load [%]'] = pd.to_numeric(df['GPU Core Load [%]'], errors='coerce'
 df['GPU Power (Total) [W]'] = pd.to_numeric(df['GPU Power (Total) [W]'], errors='coerce')
 
 now = datetime.now()
-timestamp = now.strftime("%m_%d_%H_%M")  # Example: "10_30_11_44"
+timestamp = now.strftime("%m_%d_%H_%M_%S")  # Example: "10_30_11_44_59"
 
 
 def check_benchmark():
     games = ["Call of Duty MW III", "Cyberpunk 2077", "AC Mirage", "Diablo IV", "The Witcher 3"]
     technologies = ["Native", "DLSS", "XeSS", "FSR"]
-    upscaling_setting = ["Performance", "Balanced", "Quality"]
+    upscaling_setting = ["None", "Performance", "Balanced", "Quality"]
     graphics_settings = ["Low", "Medium", "High"]
     resolution = ["1080p", "1440p"]
+    graphics_card = ["3060", "4060"]
     game_index = int(input(f"Select the game ({', '.join([f'{i}: {tech}' for i, tech 
                                                           in enumerate(games)])}): "))
     tech_index = int(input(f"Select the technology ({', '.join([f'{i}: {tech}' for i, tech 
@@ -71,19 +72,22 @@ def check_benchmark():
                                                                           in enumerate(graphics_settings)])}): "))
     resolution_index = int(input(f"Select the resolution ({', '.join([f'{i}: {res}' for i, res 
                                                                       in enumerate(resolution)])}): "))
+    graphics_card_index = int(input(f"Select the graphics card ({', '.join([f'{i}: {gpu}' for i, gpu
+                                                                      in enumerate(graphics_card)])}): "))
     game_name = games[game_index]
     technology_name = technologies[tech_index]
     upscaling_name = upscaling_setting[upscaling_index]
     graphis_name = graphics_settings[graphics_index]
     resolution_name = resolution[resolution_index]
-    return game_name, technology_name, upscaling_name, graphis_name, resolution_name
+    graphis_card_name = graphics_card[graphics_card_index]
+    return game_name, technology_name, upscaling_name, graphis_name, resolution_name, graphis_card_name
 
 
-game_name, technology_name, upscaling_name, graphis_name, resolution_name = check_benchmark()
+game_name, technology_name, upscaling_name, graphis_name, resolution_name, graphis_card_name = check_benchmark()
 
 output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Energy Consumption"
 output_file_name = (f"Energy_Consumption_{game_name}_{technology_name}_{upscaling_name}_{graphis_name}_"
-                    f"{resolution_name}_{timestamp}.xlsx")
+                    f"{resolution_name}_{timestamp}_{graphis_card_name}.xlsx")
 
 output_file_path = os.path.join(output_directory, output_file_name)
 
