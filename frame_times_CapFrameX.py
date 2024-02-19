@@ -12,80 +12,55 @@ json_files = [file for file in os.listdir(json_directory) if file.endswith('.jso
 # Display the list of available JSON files along with their creation times
 print("Available JSON files:")
 for i, file in enumerate(json_files):
-    # Construct the full path for each file to get its creation time
     file_path = os.path.join(json_directory, file)
-    # Get the creation time of the file
     creation_time = os.path.getctime(file_path)
-    # Convert creation time from timestamp to human-readable format
     creation_time_readable = datetime.datetime.fromtimestamp(creation_time).strftime('%Y-%m-%d %H:%M:%S')
-    # Print the file index, name, and creation time
     print(f"{i + 1}: {file} (Creation time: {creation_time_readable})")
 
-# Prompt the user to select a file by index
-while True:
-    try:
-        selected_index = int(input("Enter the index of the JSON file you want to analyze: ")) - 1
-        if 0 <= selected_index < len(json_files):
-            selected_file = json_files[selected_index]
-            break
-        else:
-            print("Invalid index. Please enter a valid index.")
-    except ValueError:
-        print("Invalid input. Please enter a valid index.")
+# Prompt the user to select files by index
+selected_indices_input = input("Enter the indices of the JSON files you want to analyze, separated by commas: ")
+selected_indices = [int(index.strip()) - 1 for index in selected_indices_input.split(',') if index.strip().isdigit()]
 
-# Construct the full file path for the selected JSON file
-json_file_path = os.path.join(json_directory, selected_file)
+selected_files = [json_files[i] for i in selected_indices if 0 <= i < len(json_files)]
+print(selected_files)
 
-# Extract the game name from the selected JSON file's name and remove ".exe"
-game_name = selected_file.split('-')[1].replace('.exe', '')
-if game_name == "cod":
-    game_name = "Modern Warfare III"
-
-# Open and read the selected JSON file
-with open(json_file_path, 'r') as json_file:
-    data = json.load(json_file)
-    x = data["Runs"][0]
-    y = x["CaptureData"]
-    frame_times = y["MsBetweenPresents"]
-
-df = pd.DataFrame(frame_times)
-df = df.rename(columns={0: "FrameTime"})
-
-now = datetime.datetime.now()
-timestamp = now.strftime("%m_%d_%H_%M_%S")  # Example: "10_30_11_44_59"
-
+# Technology and other settings inputs
 technologies = ["Native", "DLSS", "XeSS", "FSR"]
 upscaling_setting = ["None", "Performance", "Balanced", "Quality"]
 graphics_settings = ["Low", "Medium", "High"]
 resolution = ["1080p", "1440p"]
 graphics_card = ["3060", "4060"]
 
-# Prompt user to select options by index
-tech_index = int(input(f"Select the technology ({', '.join([f'{i}: {tech}' for i, tech in enumerate(technologies)])}): "))
-upscaling_index = int(input(f"Select the upscaling setting ({', '.join([f'{i}: {setting}' for i, setting in enumerate(upscaling_setting)])}): "))
-graphics_index = int(input(f"Select the graphics setting ({', '.join([f'{i}: {setting}' for i, setting in enumerate(graphics_settings)])}): "))
-resolution_index = int(input(f"Select the resolution ({', '.join([f'{i}: {res}' for i, res in enumerate(resolution)])}): "))
-graphics_card_index = int(input(f"Select the graphics card ({', '.join([f'{i}: {gpu}' for i, gpu
-                                                                        in enumerate(graphics_card)])}): "))
-# Validate selections
-if tech_index not in range(len(technologies)) or \
-   upscaling_index not in range(len(upscaling_setting)) or \
-   graphics_index not in range(len(graphics_settings)) or \
-   resolution_index not in range(len(resolution)) or \
-    graphics_card_index not in range(len(graphics_card)):
-    print("One or more invalid selections. Please restart and enter valid index numbers.")
+print(f"Select the technology ({', '.join([f'{i}: {tech}' for i, tech in enumerate(technologies)])}): ")
+tech_index = int(input())
+print(
+    f"Select the upscaling setting ({', '.join([f'{i}: {setting}' for i, setting in enumerate(upscaling_setting)])}): ")
+upscaling_index = int(input())
+print(
+    f"Select the graphics setting ({', '.join([f'{i}: {setting}' for i, setting in enumerate(graphics_settings)])}): ")
+graphics_index = int(input())
+print(f"Select the resolution ({', '.join([f'{i}: {res}' for i, res in enumerate(resolution)])}): ")
+resolution_index = int(input())
+print(f"Select the graphics card ({', '.join([f'{i}: {gpu}' for i, gpu in enumerate(graphics_card)])}): ")
+graphics_card_index = int(input())
 
+for selected_file in selected_files:
+    json_file_path = os.path.join(json_directory, selected_file)
+    game_name = selected_file.split('-')[1].replace('.exe', '')
+    if game_name == "cod":
+        game_name = "Modern Warfare III"
 
-# Define the target directory and include the game name in the output_file_name
-output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Frametimes"
-output_file_name = f"benchmark_{game_name}_{timestamp}_{technologies[tech_index]}_{upscaling_setting[upscaling_index]}_{graphics_settings[graphics_index]}_{resolution[resolution_index]}_{graphics_card[graphics_card_index]}.xlsx"
+    with open(json_file_path, 'r') as json_file:
+        data = json.load(json_file)
+        frame_times = data["Runs"][0]["CaptureData"]["MsBetweenPresents"]
 
-# Full file path for the output
-output_file_path = os.path.join(output_directory, output_file_name)
+    df = pd.DataFrame(frame_times, columns=["FrameTime"])
 
-# Save the DataFrame to Excel
-df.to_excel(output_file_path, index=True)
+    now = datetime.datetime.now()
+    timestamp = now.strftime("%Y_%m_%d_%H_%M_%S_%f")[:-3]  # Including milliseconds and trimming to 3 digits
+    output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Frametimes"
+    output_file_name = f"benchmark_{game_name}_{timestamp}_{technologies[tech_index]}_{upscaling_setting[upscaling_index]}_{graphics_settings[graphics_index]}_{resolution[resolution_index]}_{graphics_card[graphics_card_index]}.xlsx"
 
-print(f"DataFrame saved to {output_file_path}")
-
-
+    output_file_path = os.path.join(output_directory, output_file_name)
+    df.to_excel(output_file_path, index=True)
+    print(f"DataFrame saved to {output_file_path}")
