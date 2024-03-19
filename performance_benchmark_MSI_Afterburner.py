@@ -1,9 +1,13 @@
 import os
 import pandas as pd
 import datetime
+import openpyxl
+import copy
+from openpyxl.styles import Alignment
 
 benchmark_file = r"C:\Users\Christoph\Documents\Master Thesis\Performance\Benchmark.txt"
 
+# Define the function to read the benchmark file and create a DataFrame
 def read_file_and_create_dataframe(file_path):
     benchmark_data = []
     game_names = set()  # Use a set to avoid duplicate game names
@@ -20,6 +24,7 @@ def read_file_and_create_dataframe(file_path):
     return df, game_names
 
 
+# Define the function to extract benchmark information
 def extract_benchmark_info(file_lines):
     # Parsing the first line for game name, date, and time
     game_name_line = file_lines[0]
@@ -49,14 +54,15 @@ def extract_benchmark_info(file_lines):
     }
 
 
+# Read the benchmark file and create DataFrame
 df, game_names = read_file_and_create_dataframe(benchmark_file)
-game_names = list(game_names)
-game_names = game_names[0]
+game_names = list(game_names)[0]  # Extract the game name from the set
 now = datetime.datetime.now()
 timestamp = now.strftime("%m_%d_%H_%M")  # Example: "10_30_11_44"
 
-def check_benchmark():
 
+# Function to get user inputs for benchmark information
+def check_benchmark():
     technologies = ["Native", "DLSS", "XeSS", "FSR"]
     upscaling_setting = ["None", "Performance", "Balanced", "Quality"]
     graphics_settings = ["Low", "Medium", "High"]
@@ -74,22 +80,85 @@ def check_benchmark():
                                                                       in enumerate(graphics_card)])}): "))
     technology_name = technologies[tech_index]
     upscaling_name = upscaling_setting[upscaling_index]
-    graphis_name = graphics_settings[graphics_index]
+    graphics_name = graphics_settings[graphics_index]
     resolution_name = resolution[resolution_index]
-    graphis_card_name = graphics_card[graphics_card_index]
-    return technology_name, upscaling_name, graphis_name, resolution_name,graphis_card_name
+    graphics_card_name = graphics_card[graphics_card_index]
+    return technology_name, upscaling_name, graphics_name, resolution_name, graphics_card_name
 
 
-technology_name, upscaling_name, graphis_name, resolution_name, graphis_card_name = check_benchmark()
+# Get user inputs for benchmark information
+technology_name, upscaling_name, graphics_name, resolution_name, graphics_card_name = check_benchmark()
 
 # Define the target directory and file name
 output_directory = r"C:\Users\Christoph\Documents\Master Thesis\Benchmark"
 
 # Now include game_name in your output file name
-output_file_name = f"benchmark_{game_names}_{timestamp}_{technology_name}_{upscaling_name}_{graphis_name}_{resolution_name}_{graphis_card_name}.xlsx"
+output_file_name = f"benchmark_{game_names}_{timestamp}_{technology_name}_{upscaling_name}_{graphics_name}_{resolution_name}_{graphics_card_name}.xlsx"
 
 # Full file path
 output_file_path = os.path.join(output_directory, output_file_name)
 
 # Save the DataFrame to Excel
 df.to_excel(output_file_path, index=False)
+
+print(f"Excel file '{output_file_name}' has been created.")
+
+# Open the created Excel file and add cells from "Book1.xlsx"
+wb = openpyxl.load_workbook(filename=output_file_path)
+sheet = wb.active
+
+# Open "Book1.xlsx" and get the range of cells to copy
+source_wb = openpyxl.load_workbook(filename=r"C:\Users\Christoph\Documents\Master Thesis\Book1.xlsx")
+source_sheet = source_wb.active
+cell_range = source_sheet["A5:J21"]
+
+# Copy cells with values and formats
+start_row = sheet.max_row + 2
+for row in cell_range:
+    col_num = 1
+    for cell in row:
+        target_cell = sheet.cell(row=start_row, column=col_num)
+        target_cell.value = cell.value
+
+        # Copy cell formatting
+        target_cell.number_format = cell.number_format
+
+        # Copy font properties
+        target_cell.font = copy.copy(cell.font)
+
+        # Copy alignment properties
+        target_cell.alignment = copy.copy(cell.alignment)
+
+        # Copy border properties
+        target_cell.border = copy.copy(cell.border)
+
+        # Copy fill properties
+        target_cell.fill = copy.copy(cell.fill)
+
+        col_num += 1
+    start_row += 1
+
+# Merge and center specified cells
+cells_to_merge = ["A5:D5", "A7:I7", "A14:F14", "A16:F16", "A21:F21"]
+for cell_range in cells_to_merge:
+    sheet.merge_cells(cell_range)
+    # Center text in merged cells
+    for row in sheet[cell_range]:
+        for cell in row:
+            cell.alignment = Alignment(horizontal='center', vertical='center')
+
+# Adjust the width of columns A and J
+sheet.column_dimensions['A'].width = 16.57
+sheet.column_dimensions['J'].width = 11.14
+
+# Save the updated Excel file
+wb.save(output_file_path)
+
+print(f"Cells from 'Book1.xlsx' added to '{output_file_name}'.")
+
+# Last step: remove the original file
+if os.path.exists(benchmark_file):
+    os.remove(benchmark_file)
+    print("Benchmark.txt has been deleted.")
+else:
+    print("The file does not exist.")
