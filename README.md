@@ -17,6 +17,12 @@ How do various state-of-the-art upscaling technologies compare in terms of perfo
 
 This master thesis conducts a benchmark test to compare the performance, image quality, and gaming scenario suitability of Nvidia DLSS, AMD FSR, and Intel XeSS against native rendering. The test uses two Nvidia graphics cards: the RTX 3060 (supporting DLSS 2.0) and the RTX 4060 (supporting DLSS 3.0), chosen based on their popularity in the Steam Hardware Survey. Metrics like FPS, GPU utilization, and energy consumption are measured across various game genres, including titles like Cyberpunk 2077 and Call of Duty Modern Warfare III, which support all three upscaling technologies. The methodology involves extensive data collection and processing, utilizing Python for analysis.
 
+## Benchmark Scenes
+
+To ensure transparency and reproducibility, I've provided benchmark videos demonstrating the exact testing scenarios. These videos showcase diverse visual challenges and the specific in-game locations used for performance and image quality evaluation.
+
+Access the benchmark videos here: https://drive.google.com/drive/folders/1unBSgl-6xzqBpOYpT08KNWz3lpTowTzM?usp=sharing
+
 ## Contents of this Repository
 
 This repository contains the Exposé of the Master Thesis, the Master Thesis and the Python Scripts used in the Benchmark Process.
