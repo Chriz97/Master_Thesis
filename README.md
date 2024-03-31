@@ -23,9 +23,11 @@ To ensure transparency and reproducibility, I've provided benchmark videos demon
 
 Access the benchmark videos here: https://drive.google.com/drive/folders/1unBSgl-6xzqBpOYpT08KNWz3lpTowTzM?usp=sharing
 
-## Benchmark Results
+## Benchmark Results (Performance, Energy Consumption and Frametimes)
 
-The benchmark results are available here: https://drive.google.com/drive/folders/1GCy3Qm5CpW8PrsRGy1mzGRU0HU9LupEZ?usp=sharing. Please note that the benchmark results are not completed yet. All benchmark results are validated with another run using the MSI Afterburner application as well as Nvidia Frame View. Please be aware that the Minimum FPS and Maximum FPS cannot be validated using Nvidia Frame View.
+The benchmark results are available here: https://drive.google.com/drive/folders/1GCy3Qm5CpW8PrsRGy1mzGRU0HU9LupEZ?usp=sharing. 
+
+Please note that the benchmark results are not completed yet. All benchmark results are validated with another run using the MSI Afterburner application as well as Nvidia Frame View. Please be aware that the Minimum FPS and Maximum FPS cannot be validated using Nvidia Frame View.
 
 ## Contents of this Repository
 
