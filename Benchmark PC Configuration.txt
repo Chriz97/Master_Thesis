@@ -1,0 +1,44 @@
+Benchmark PC Configuration:
+
+•	Central Processing Unit (CPU): Intel Core I5-10600K: 
+o		Total Cores: 6, Total Threads: 12
+o		Processor Base Frequency: 4.10 GHz (No overlocking applied) 
+o		Max. Turbo Frequency: 4.80 GHz
+o		All-Core Turbo Frequency: 4.50 GHz
+o		TDP: 125 W (indicates the maximum heat output the CPU cooling system needs to handle)
+o		Lithography: 14 nm
+•	CPU Cooler: be quiet! Dark Rock Slim (180W TDP)
+•	Mainboard: Asus Prime Z490-A
+•	Random Access Memory (RAM): Corsair Vengeance LPX 32GB (2x16GB) DDR4 3200MHz
+•	Graphics Card 1: ZOTAC GAMING GeForce RTX 3060 Twin Edge OC (Architecture: Ampere)
+•	Graphics Card 2: Gigabyte NVIDIA GeForce RTX 4060 AERO OC (Architecture: Ada Lovelace)
+•	Storage: SanDisk Ultra 3D 1 TB SSD (Internal SATA SSD)
+•	Power Supply: be quiet! Pure Power 11 600 watts
+
+
+Monitor:
+•	Model: Samsung Odyssey Gaming Monitor C27G73TQSR
+•	Resolution: 2,560 x 1,440 pixels (supports lower resolutions)
+•	Panel Type: VA-Panel
+•	Supported Technologies: AMD FreeSync Premium Pro, G-Sync, HDR
+•	Reaction time: 1 millisecond 
+
+Input Device:
+
+To conduct the benchmark tests the Xbox Elite Wireless Controller Series 2 is used for input and control during gaming sessions. The controller is connected via a USB-C cable.
+Graphics Drivers:
+
+The same NVIDIA graphics drivers are installed for both the Nvidia Geforce RTX 4060 and Nvidia Geforce RTX 3060 in order to ensure consistent and comparable performance across the two graphics cards during the benchmarking process.
+
+Resizable BAR Support:
+
+Resizable BAR support has been enabled for both graphics cards in the motherboard UEFI set-tings. This feature allows the GPU to access the system's entire memory which can potentially improve performance in certain scenarios (Archer, 2021).
+
+Hyperthreading Configuration:
+
+To maintain consistency and maximize the potential performance of both graphics cards, Hyper-threading has been enabled on the Intel i5 10600K processor within the system's BIOS/UEFI settings. This technology allows each physical core to function as two logical cores, potentially boosting performance in multi-threaded workloads and reducing CPU bottlenecks that could limit GPU performance (Intel, n.d.).
+
+Operating System:
+•	Version: Microsoft Windows 11 Home, 64-bit
+•	Operating Version: 10.0.22361
+•	Build Version: 22631
