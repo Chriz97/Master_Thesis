@@ -36,7 +36,7 @@ This repository contains the Exposé of the Master Thesis, the Master Thesis and
 ## List of used AI assistance tools
 
 - Chatgpt (GPT-4)
-- Bard
+- Gemini Advanced (Formerly known as Google Bard)
 - ChatPDF
 - DeepL
 
