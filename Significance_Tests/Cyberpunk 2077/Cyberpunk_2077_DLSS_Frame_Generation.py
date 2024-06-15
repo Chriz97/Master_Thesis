@@ -1,8 +1,8 @@
 import numpy as np
 from scipy import stats
 
-# Genre: Online Action RPG
-# Game: Diablo IV
+# Genre: Science Fiction RPG
+# Game: Cyberpunk 2077
 # T-Test: Native and DLSS (Frame Generation Results) at 1080p and 1440p
 
 # The array contains the following values: average FPS, 1% low FPS, and 0.1% low FPS.
