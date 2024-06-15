@@ -1,8 +1,8 @@
 import numpy as np
 from scipy import stats
 
-# Genre: Online Action RPG
-# Game: Diablo IV
+# Genre: First Person Shooter
+# Game: Call of Duty Modern Warfare III
 # T-Test: Native and XeSS (Average across all modes and graphics settings) at 1080p and 1440p
 
 # The array contains the following values: average FPS, 1% low FPS, and 0.1% low FPS.
